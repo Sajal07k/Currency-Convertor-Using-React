@@ -1,4 +1,4 @@
-import {React,useId} from 'react'
+import { React, useId } from 'react'
 
 
 function InputBox({
@@ -22,14 +22,20 @@ function InputBox({
                     {label}
                 </label>
 
-                <input    
+                <input
                     id={amountInputId}
                     className="outline-none w-full bg-transparent py-1.5"
                     type="number"
                     placeholder="Amount"
                     disabled={amountDisable}
                     value={amount}
-                    onChange={(e) => onAmountChange && onAmountChange(Number(e.target.value))} /*Type cast because sometime js reads it as a string */
+                    onChange={(e) => {
+                        const val = e.target.value;
+                        // Allow empty string (to let user delete), or digits only
+                        if (/^\d*$/.test(val)) {
+                            onAmountChange && onAmountChange(val);
+                        }
+                    }}
                 />
             </div>
 
